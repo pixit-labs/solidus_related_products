@@ -5,5 +5,8 @@ Spree::Backend::Config.configure do |config|
 
   config.menu_items.detect { |menu_item|
     menu_item.label == :products
-  }.sections << :relation_types
+  }.children << config.class::MenuItem.new(
+    label: :relation_types,
+    condition: -> { can?(:admin, Spree::RelationType) }
+  )
 end
